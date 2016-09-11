@@ -1,0 +1,40 @@
+{
+  "name": "candy-server",
+  "version": "1.0.0",
+  "description": "Candy-server API",
+  "main": "server.js",
+  "author": "MaxSh",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.1",
+    "config": "^1.20.1",
+    "crypto": "0.0.3",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.15",
+    "morgan": "^1.7.0",
+    "swagger-jsdoc": "^1.6.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^2.0.1",
+    "eslint": "^2.7.0",
+    "eslint-config-google": "^0.5.0",
+    "mocha": "^2.4.5"
+  },
+  "scripts": {
+    "start": "SET NODE_ENV=dev&& node server.js",
+    "test": "mocha --timeout 10000",
+    "lint": "eslint ."
+  },
+  "eslintConfig": {
+    "extends": "google",
+    "globals": {
+      "appRoot": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxsh8x/candy-server.git"
+  }
+}
