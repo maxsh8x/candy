@@ -3,3 +3,5 @@ node_js:
   - "6"
 services:
   - mongodb
+before_script:
+ - cp config/test.example.json config/test.json
