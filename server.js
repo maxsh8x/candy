@@ -13,7 +13,7 @@ const options = {
   replset: {socketOptions: {keepAlive: 1, connectTimeoutMS: 30000}}
 };
 
-mongoose.connect(config.MongodbURI, options);
+mongoose.connect(config.MongodbURI || process.env.MONGODB_URI, options);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -61,7 +61,7 @@ if (process.env.NODE_ENV) {
   process.exit();
 }
 
-app.listen(config.port);
+app.listen(config.port || 8000);
 console.log("Listening on port: " + config.port);
 
 module.exports = app;
