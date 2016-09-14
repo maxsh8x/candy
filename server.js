@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const swaggerJSDoc = require('swagger-jsdoc');
 
 const config = require('config');
+const port = process.env.PORT || 8080;
 
 const options = {
   server: {socketOptions: {keepAlive: 1, connectTimeoutMS: 30000}},
@@ -61,7 +62,7 @@ if (process.env.NODE_ENV) {
   process.exit();
 }
 
-app.listen(config.port || 8000);
-console.log("Listening on port: " + config.port);
+app.listen(port);
+console.log("Listening on port: " + port);
 
 module.exports = app;

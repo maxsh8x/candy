@@ -1,4 +1,3 @@
 {
-  "MongodbURI": "mongodb://localhost:27017/test",
-  "port": 8000
+  "MongodbURI": "mongodb://localhost:27017/test"
 }

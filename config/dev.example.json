@@ -1,4 +1,3 @@
 {
-  "MongodbURI": "",
-  "port": 8000
+  "MongodbURI": ""
 }
