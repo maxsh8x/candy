@@ -1,2 +1,1 @@
-# candy
-:candy:
+[![Build Status](https://travis-ci.org/maxsh8x/candy-server.svg?branch=dev)](https://travis-ci.org/maxsh8x/candy-server)
