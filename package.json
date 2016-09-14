@@ -23,7 +23,7 @@
     "mocha": "^2.4.5"
   },
   "scripts": {
-    "start": "SET NODE_ENV=dev&& node server.js",
+    "start": "node server.js",
     "test": "mocha --timeout 10000",
     "lint": "eslint ."
   },

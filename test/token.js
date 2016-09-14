@@ -18,7 +18,7 @@ describe('Tokens', function() {
     if (mongoose.connection.db) {
       return done();
     }
-    mongoose.connect(config.DBHost, done);
+    mongoose.connect(config.MongodbURI, done);
   });
   beforeEach(function(done) {
     token.remove({}, function() {

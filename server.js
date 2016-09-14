@@ -13,7 +13,7 @@ const options = {
   replset: {socketOptions: {keepAlive: 1, connectTimeoutMS: 30000}}
 };
 
-mongoose.connect(config.DBHost, options);
+mongoose.connect(config.MongodbURI, options);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -54,7 +54,14 @@ if (process.env.NODE_ENV !== 'test') {
 app.use(bodyParser.json({type: 'application/json'}));
 app.use('/api', require('./app/routes/api'));
 
+if (process.env.NODE_ENV) {
+  console.log("Environment: " + process.env.NODE_ENV);
+} else {
+  console.log("Define suitable NODE_ENV in your system");
+  process.exit();
+}
+
 app.listen(config.port);
-console.log("Listening on port " + config.port);
+console.log("Listening on port: " + config.port);
 
 module.exports = app;

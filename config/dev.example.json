@@ -1,3 +1,4 @@
 {
-  "DBHost": ""
+  "MongodbURI": "",
+  "port":  8000
 }
