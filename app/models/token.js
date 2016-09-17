@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 const Schema = mongoose.Schema;
 
-const tokenUtils = require('../../utils/token');
+const randomUtils = require('../../utils/random');
 
 const Token = new Schema(
   {
@@ -18,7 +18,7 @@ Token.pre('save', function(next) {
   lifetime.setHours(lifetime.getHours() + 24);
   this.lifetime = lifetime;
   if (this.isNew) {
-    this._id = tokenUtils.genToken();
+    this._id = randomUtils.genUUID();
   }
   next();
 });

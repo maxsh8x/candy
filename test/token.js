@@ -5,12 +5,12 @@ process.env.NODE_ENV = 'test';
 const mongoose = require('mongoose');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const chaiJsonSchema = require('chai-json-schema');
+const chaiJsonSchema = require('chai-ajv-json-schema');
 const expect = chai.expect;
 
 const config = require('config');
 const token = require('../app/models/token');
-const tokenUtils = require('../utils/token');
+const randomUtils = require('../utils/random');
 const server = require('../server');
 
 chai.use(chaiHttp);
@@ -30,8 +30,8 @@ describe('Tokens', function() {
   });
   describe('genToken', function() {
     it('it should generate token', function(done) {
-      const firstToken = tokenUtils.genToken();
-      const secondToken = tokenUtils.genToken();
+      const firstToken = randomUtils.genRandomString();
+      const secondToken = randomUtils.genRandomString();
       expect(firstToken).be.a('string');
       expect(firstToken.length).be.eql(20);
       expect(firstToken.length).be.eql(20);
@@ -46,14 +46,15 @@ describe('Tokens', function() {
     it('it should GET new token object', function(done) {
       chai.request(server)
         .get('/api/token/get/')
-        .end(function(err, res) {
+        .end(function(err, res) { // eslint-disable-line handle-callback-err
           const getTokenSchema = {
             title: 'getToken schema v1',
             type: 'object',
             required: ['token', 'lifetime'],
             properties: {
               token: {
-                type: 'string'
+                type: 'string',
+                format: 'uuid'
               },
               lifetime: {
                 type: 'string',
@@ -62,7 +63,7 @@ describe('Tokens', function() {
             }
           };
           expect(res).have.status(200);
-          expect(res.body).to.be.jsonSchema(getTokenSchema);
+          expect(res.body).to.be.validWithSchema(getTokenSchema);
           done();
         });
     });
