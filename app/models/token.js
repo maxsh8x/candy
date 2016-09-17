@@ -9,14 +9,14 @@ const Token = new Schema(
   {
     _id: String,
     isInitiator: Boolean,
-    lifetime: Date
+    expires: Date
   }
 );
 
 Token.pre('save', function(next) {
-  let lifetime = new Date();
-  lifetime.setHours(lifetime.getHours() + 24);
-  this.lifetime = lifetime;
+  let expires = new Date();
+  expires.setHours(expires.getHours() + 24);
+  this.expires = expires;
   if (this.isNew) {
     this._id = randomUtils.genUUID();
   }

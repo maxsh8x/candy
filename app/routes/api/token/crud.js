@@ -9,7 +9,7 @@ module.exports.getToken = function getToken(req, res) {
       }
       const result = {
         token: token._id,
-        lifetime: token.lifetime
+        expires: token.expires
       };
       res.json(result);
     });

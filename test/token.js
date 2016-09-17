@@ -52,13 +52,39 @@ describe('Tokens', function() {
           const getTokenSchema = {
             title: 'getToken schema v1',
             type: 'object',
-            required: ['token', 'lifetime'],
+            required: ['token', 'expires'],
             properties: {
               token: {
                 type: 'string',
                 format: 'guid'
               },
-              lifetime: {
+              expires: {
+                type: 'string',
+                format: 'date-time'
+              }
+            }
+          };
+          expect(res).have.status(200);
+          expect(res.body).to.be.jsonSchema(getTokenSchema);
+          done();
+        });
+    });
+  });
+  describe('/POST token', function() {
+    it('it should GET new token object', function(done) {
+      chai.request(server)
+        .get('/api/token/get/')
+        .end(function(err, res) { // eslint-disable-line handle-callback-err
+          const getTokenSchema = {
+            title: 'getToken schema v1',
+            type: 'object',
+            required: ['token', 'expires'],
+            properties: {
+              token: {
+                type: 'string',
+                format: 'guid'
+              },
+              expires: {
                 type: 'string',
                 format: 'date-time'
               }
