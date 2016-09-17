@@ -3,8 +3,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
 const swaggerJSDoc = require('swagger-jsdoc');
+var swaggerTools = require('swagger-tools');
 
 const config = require('config');
 const port = process.env.PORT || 8080;
@@ -30,10 +30,24 @@ const swaggerDefinition = {
 
 const swaggerOptions = {
   swaggerDefinition: swaggerDefinition,
-  apis: ['./app/routes/api/*/index.js']
+  apis: ['./app/routes/api/*.js']
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+swaggerTools.initializeMiddleware(swaggerSpec, middleware => {
+  app.use(middleware.swaggerMetadata());
+  app.use(middleware.swaggerValidator());
+  app.use(middleware.swaggerRouter({controllers: './app/routes/api'}));
+  app.use(middleware.swaggerUi());
+  app.use((err, req, res, next) => {
+    res.json({
+      successful: false,
+      message: err.toString()
+    });
+    next();
+  });
+});
 
 // CORS for swagger
 app.use(function(req, res, next) {
@@ -43,7 +57,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/swagger.json', function(req, res) {
+app.get('/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);
 });
@@ -51,9 +65,6 @@ app.get('/swagger.json', function(req, res) {
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
 }
-
-app.use(bodyParser.json({type: 'application/json'}));
-app.use('/api', require('./app/routes/api'));
 
 if (process.env.NODE_ENV) {
   console.log("Environment: " + process.env.NODE_ENV);
