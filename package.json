@@ -5,6 +5,9 @@
   "main": "server.js",
   "author": "MaxSh",
   "license": "GPL-3.0",
+  "engines": {
+    "node": "6.4.0"
+  }
   "dependencies": {
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.1",
