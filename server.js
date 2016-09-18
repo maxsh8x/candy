@@ -4,7 +4,7 @@ const app = express();
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const swaggerJSDoc = require('swagger-jsdoc');
-var swaggerTools = require('swagger-tools');
+const swaggerTools = require('swagger-tools');
 
 const config = require('config');
 const port = process.env.PORT || 8080;
