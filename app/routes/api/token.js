@@ -62,7 +62,7 @@ module.exports.getFirstToken = (req, res) => {
     })
     .catch(err => {
       res.statusCode = 400;
-      res.json({success: false, error: err.toString()});
+      res.json({error: err.toString()});
     });
 };
 
@@ -110,6 +110,6 @@ module.exports.getSecondToken = (req, res) => {
     })
     .catch(err => {
       res.statusCode = 400;
-      res.json({success: false, error: err.toString()});
+      res.json({error: err.toString()});
     });
 };

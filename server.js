@@ -42,8 +42,7 @@ swaggerTools.initializeMiddleware(swaggerSpec, middleware => {
   app.use(middleware.swaggerUi());
   app.use((err, req, res, next) => {
     res.json({
-      successful: false,
-      message: err.toString()
+      error: err.toString()
     });
     next();
   });
