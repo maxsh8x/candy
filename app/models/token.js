@@ -8,6 +8,11 @@ const randomUtils = require('../../utils/random');
 const Token = new Schema(
   {
     _id: String,
+    container: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Container',
+      required: true
+    },
     isInitiator: {
       type: Boolean,
       default: false
@@ -30,4 +35,10 @@ Token.pre('save', function(next) {
   next();
 });
 
-module.exports = mongoose.model('token', Token);
+Token.virtual('groups', {
+  ref: 'Group',
+  localField: '_id',
+  foreignField: 'token'
+});
+
+module.exports = mongoose.model('Token', Token, 'Token');
