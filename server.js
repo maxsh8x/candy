@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerTools = require('swagger-tools');
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 const config = require('config');
 const port = process.env.PORT || 8080;
 
@@ -14,7 +15,7 @@ const options = {
   replset: {socketOptions: {keepAlive: 1, connectTimeoutMS: 30000}}
 };
 
-mongoose.connect(config.MongodbURI || process.env.MONGODB_URI, options);
+mongoose.connect(process.env.MONGODB_URI || config.MongodbURI, options);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
@@ -63,13 +64,6 @@ app.get('/swagger.json', (req, res) => {
 
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
-}
-
-if (process.env.NODE_ENV) {
-  console.log("Environment: " + process.env.NODE_ENV);
-} else {
-  console.log("Define suitable NODE_ENV in your system");
-  process.exit();
 }
 
 app.listen(port);
