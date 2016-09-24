@@ -10,8 +10,7 @@ const Token = new Schema(
     _id: String,
     container: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Container',
-      required: true
+      ref: 'Container'
     },
     isInitiator: {
       type: Boolean,
