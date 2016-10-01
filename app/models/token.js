@@ -9,7 +9,7 @@ const Token = new Schema(
   {
     _id: String,
     container: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: 'string',
       ref: 'Container'
     },
     isInitiator: {
@@ -34,8 +34,8 @@ Token.pre('save', function(next) {
   next();
 });
 
-Token.virtual('groups', {
-  ref: 'Group',
+Token.virtual('scopes', {
+  ref: 'Scope',
   localField: '_id',
   foreignField: 'token'
 });
