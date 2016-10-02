@@ -1,5 +1,6 @@
 "use strict";
 const scope = require('../../models/scope');
+const jsonUtils = require('../../../utils/json');
 
 /**
  * @swagger
@@ -12,7 +13,7 @@ const scope = require('../../models/scope');
  *       token:
  *         type: string
  *         format: uuid
- *       created:
+ *       createdAt:
  *         type: string
  *         format: date-time
  *   ForScope:
@@ -52,13 +53,8 @@ const scope = require('../../models/scope');
 module.exports.createScope = (req, res) => {
   scope.create({token: req.body.token})
     .then(scope => {
-      res.json({
-        _id: scope._id,
-        token: scope.token,
-        containers: scope.containers,
-        tags: scope.tags,
-        created: scope.created
-      });
+      const fields = ['_id', 'token', 'containers', 'tags', 'createdAt'];
+      res.json(jsonUtils.getResponse(scope, fields));
     })
     .catch(err => {
       res.statusCode = 400;
