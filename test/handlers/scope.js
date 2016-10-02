@@ -22,7 +22,7 @@ chai.tv4.addFormat(formats);
 const scopeSchema = {
   title: 'getScopesList schema v1',
   type: 'object',
-  required: ['_id', 'containers', 'tags', 'created'],
+  required: ['_id', 'containers', 'tags', 'createdAt'],
   properties: {
     _id: {
       type: 'string',
@@ -44,7 +44,7 @@ const scopeSchema = {
         }
       }
     },
-    created: 'date-time'
+    createdAt: 'date-time'
   }
 };
 

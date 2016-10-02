@@ -7,7 +7,7 @@ const randomUtils = require('../../utils/random');
 
 const Container = new Schema(
   {
-    _id: String,
+    _id: {type: String, default: randomUtils.genUUID},
     tags: [String],
     type: {
       type: String,
@@ -17,17 +17,11 @@ const Container = new Schema(
     content: {
       type: String,
       required: true
-    },
-    created: Date
+    }
+  },
+  {
+    timestamps: true
   }
 );
-
-Container.pre('save', function(next) {
-  if (this.isNew) {
-    this.created = new Date();
-    this._id = randomUtils.genUUID();
-  }
-  next();
-});
 
 module.exports = mongoose.model('Container', Container, 'Container');

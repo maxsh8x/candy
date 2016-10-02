@@ -7,7 +7,7 @@ const randomUtils = require('../../utils/random');
 
 const Token = new Schema(
   {
-    _id: String,
+    _id: {type: String, default: randomUtils.genUUID},
     container: {
       type: 'string',
       ref: 'Container'
@@ -21,18 +21,11 @@ const Token = new Schema(
       default: true
     },
     expires: Date
+  },
+  {
+    timestamps: true
   }
 );
-
-Token.pre('save', function(next) {
-  let expires = new Date();
-  expires.setHours(expires.getHours() + 24 * 7);
-  this.expires = expires;
-  if (this.isNew) {
-    this._id = randomUtils.genUUID();
-  }
-  next();
-});
 
 Token.virtual('scopes', {
   ref: 'Scope',

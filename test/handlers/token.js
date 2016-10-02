@@ -22,15 +22,11 @@ chai.tv4.addFormat(formats);
 const tokenSchema = {
   title: 'getToken schema v1',
   type: 'object',
-  required: ['token', 'expires', 'isInitiator'],
+  required: ['token', 'isInitiator'],
   properties: {
     token: {
       type: 'string',
       format: 'guid'
-    },
-    expires: {
-      type: 'string',
-      format: 'date-time'
     },
     isInitiator: Boolean
   }

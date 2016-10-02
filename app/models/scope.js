@@ -7,7 +7,7 @@ const randomUtils = require('../../utils/random');
 
 const Scope = new Schema(
   {
-    _id: String,
+    _id: {type: String, default: randomUtils.genUUID},
     tags: [String],
     token: {
       type: String,
@@ -24,18 +24,12 @@ const Scope = new Schema(
         type: String,
         ref: 'Container',
         required: true
-      },
-      created: Date
+      }
     }]
+  },
+  {
+    timestamps: true
   }
 );
-
-Scope.pre('save', function(next) {
-  if (this.isNew) {
-    this.created = new Date();
-    this._id = randomUtils.genUUID();
-  }
-  next();
-});
 
 module.exports = mongoose.model('Scope', Scope, 'Scope');
