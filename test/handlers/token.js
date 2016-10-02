@@ -22,9 +22,9 @@ chai.tv4.addFormat(formats);
 const tokenSchema = {
   title: 'getToken schema v1',
   type: 'object',
-  required: ['token', 'isInitiator'],
+  required: ['_id', 'isInitiator'],
   properties: {
-    token: {
+    _id: {
       type: 'string',
       format: 'guid'
     },

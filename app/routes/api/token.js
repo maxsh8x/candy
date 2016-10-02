@@ -2,6 +2,7 @@
 const Promise = require("bluebird");
 
 const token = require('../../models/token');
+const jsonUtils = require('../../../utils/json');
 
 /**
  * @swagger
@@ -46,19 +47,11 @@ const token = require('../../models/token');
  *           $ref: '#/definitions/GetToken'
  */
 
-const getTokenSchema = token => {
-  return {
-    token: token._id,
-    expires: token.expires,
-    isInitiator: token.isInitiator,
-    haveSecondToken: token.haveSecondToken
-  };
-};
-
 module.exports.getFirstToken = (req, res) => {
   token.create({isInitiator: true})
     .then(token => {
-      res.json(getTokenSchema(token));
+      const fields = ['_id', 'expires', 'isInitiator', 'haveSecondToken'];
+      res.json(jsonUtils.getResponse(token, fields));
     })
     .catch(err => {
       res.statusCode = 400;
@@ -106,7 +99,8 @@ module.exports.getSecondToken = (req, res) => {
       ]);
     })
     .then(([secondToken]) => {
-      res.json(getTokenSchema(secondToken));
+      const fields = ['_id', 'expires', 'isInitiator', 'haveSecondToken'];
+      res.json(jsonUtils.getResponse(secondToken, fields));
     })
     .catch(err => {
       res.statusCode = 400;
