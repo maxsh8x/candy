@@ -20,7 +20,8 @@ const Container = new Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    id: false
   }
 );
 

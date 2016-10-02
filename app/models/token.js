@@ -23,7 +23,8 @@ const Token = new Schema(
     expires: Date
   },
   {
-    timestamps: true
+    timestamps: true,
+    id: false
   }
 );
 
