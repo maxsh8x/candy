@@ -17,12 +17,14 @@ const Container = new Schema(
     content: {
       type: String,
       required: true
-    }
+    },
+    created: Date
   }
 );
 
 Container.pre('save', function(next) {
   if (this.isNew) {
+    this.created = new Date();
     this._id = randomUtils.genUUID();
   }
   next();

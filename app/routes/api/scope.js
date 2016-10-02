@@ -12,6 +12,9 @@ const scope = require('../../models/scope');
  *       token:
  *         type: string
  *         format: uuid
+ *       created:
+ *         type: string
+ *         format: date-time
  *   ForScope:
  *     type: object
  *     required:
@@ -53,7 +56,8 @@ module.exports.createScope = (req, res) => {
         _id: scope._id,
         token: scope.token,
         containers: scope.containers,
-        tags: scope.tags
+        tags: scope.tags,
+        created: scope.created
       });
     })
     .catch(err => {

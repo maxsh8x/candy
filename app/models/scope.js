@@ -24,13 +24,15 @@ const Scope = new Schema(
         type: String,
         ref: 'Container',
         required: true
-      }
+      },
+      created: Date
     }]
   }
 );
 
 Scope.pre('save', function(next) {
   if (this.isNew) {
+    this.created = new Date();
     this._id = randomUtils.genUUID();
   }
   next();
