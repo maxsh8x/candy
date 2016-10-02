@@ -60,9 +60,8 @@ describe('handlers /api/tokens', () => {
       return token.create({isInitiator: true}).then(dbToken => {
         firstTokenUUID = dbToken._id;
         return chai.request(server)
-          .post('/api/token/second/')
-          .set('content-type', 'application/json')
-          .send({token: firstTokenUUID});
+          .get('/api/token/second/')
+          .set('AuthToken', firstTokenUUID);
       })
         .then(res => {
           expect(res).have.status(200);

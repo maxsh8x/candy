@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerTools = require('swagger-tools');
 
+const token = require('./app/models/token');
+
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
 const config = require('config');
 const port = process.env.PORT || 8080;
@@ -26,7 +28,14 @@ const swaggerDefinition = {
     description: ''
   },
   host: 'localhost:8080',
-  basePath: '/'
+  basePath: '/',
+  securityDefinitions: {
+    accessToken: {
+      type: 'apiKey',
+      in: 'query',
+      name: 'apiKey'
+    }
+  }
 };
 
 const swaggerOptions = {
@@ -35,16 +44,30 @@ const swaggerOptions = {
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
+const swaggerSecurityDefinition = {
+  accessToken: (req, def, scopes, callback) => {
+    if (!req.get('AuthToken')) {
+      return req.res.status(401).json({error: 'Token not defined'});
+    }
+    return token.findById(req.get('AuthToken'))
+      .then(dbToken => {
+        if (dbToken) {
+          req.user = dbToken;
+          return callback();
+        }
+        req.res.status(401).json({error: 'Token not found'});
+      });
+  }
+};
 
 swaggerTools.initializeMiddleware(swaggerSpec, middleware => {
   app.use(middleware.swaggerMetadata());
+  app.use(middleware.swaggerSecurity(swaggerSecurityDefinition));
   app.use(middleware.swaggerValidator());
   app.use(middleware.swaggerRouter({controllers: './app/routes/api'}));
   app.use(middleware.swaggerUi());
   app.use((err, req, res, next) => {
-    res.json({
-      error: err.toString()
-    });
+    res.json({error: err.toString()});
     next();
   });
 });

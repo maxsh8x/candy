@@ -19,14 +19,6 @@ const jsonUtils = require('../../../utils/json');
  *         type: boolean
  *       haveSecondToken:
  *         type: boolean
- *   ForSecondToken:
- *     type: object
- *     required:
- *       - token
- *     properties:
- *       token:
- *         type: string
- *         format: uuid
  */
 
 /**
@@ -62,17 +54,13 @@ module.exports.getFirstToken = (req, res) => {
 /**
  * @swagger
  * /api/token/second/:
- *   post:
+ *   get:
  *     tags:
  *       - Tokens
  *     x-swagger-router-controller: token
  *     operationId: getSecondToken
- *     parameters:
- *       - name: token
- *         in: body
- *         description: Your first uuid
- *         schema:
- *           $ref: '#/definitions/ForSecondToken'
+ *     security:
+ *       - accessToken: []
  *     description: Returns a second token that you can share
  *     produces:
  *       - application/json
@@ -84,20 +72,14 @@ module.exports.getFirstToken = (req, res) => {
  */
 
 module.exports.getSecondToken = (req, res) => {
-  token.findById(req.body.token)
-    .then(dbToken => {
-      if (!dbToken) {
-        return Promise.reject('token not found');
-      }
-      if (!dbToken.haveSecondToken) {
-        return Promise.reject('no tokens');
-      }
-      dbToken.haveSecondToken = false;
-      return Promise.all([
-        token.create({}),
-        dbToken.save()
-      ]);
-    })
+  if (!req.user.haveSecondToken) {
+    return Promise.reject('no tokens');
+  }
+  req.user.haveSecondToken = false;
+  return Promise.all([
+    token.create({}),
+    req.user.save()
+  ])
     .then(([secondToken]) => {
       const fields = ['_id', 'expires', 'isInitiator', 'haveSecondToken'];
       res.json(jsonUtils.getResponse(secondToken, fields));

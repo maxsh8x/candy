@@ -74,9 +74,9 @@ describe('handlers /api/scopes', () => {
       return token.create({isInitiator: true}).then(dbToken => {
         tokenUUID = dbToken._id;
         return chai.request(server)
-          .post('/api/scope/create/')
+          .get('/api/scope/create/')
           .set('content-type', 'application/json')
-          .send({token: tokenUUID});
+          .set('AuthToken', tokenUUID);
       })
         .then(res => {
           expect(res).have.status(200);

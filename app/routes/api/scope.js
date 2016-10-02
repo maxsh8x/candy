@@ -16,30 +16,18 @@ const jsonUtils = require('../../../utils/json');
  *       createdAt:
  *         type: string
  *         format: date-time
- *   ForScope:
- *     type: object
- *     required:
- *       - token
- *     properties:
- *       token:
- *         type: string
- *         format: uuid
  */
 
 /**
  * @swagger
  * /api/scope/create/:
- *   post:
+ *   get:
  *     tags:
  *       - Scopes
  *     x-swagger-router-controller: scope
  *     operationId: createScope
- *     parameters:
- *       - name: token
- *         in: body
- *         description: Your uuid
- *         schema:
- *           $ref: '#/definitions/ForScope'
+ *     security:
+ *       - accessToken: []
  *     description: Create new scope
  *     produces:
  *       - application/json
@@ -51,7 +39,7 @@ const jsonUtils = require('../../../utils/json');
  */
 
 module.exports.createScope = (req, res) => {
-  scope.create({token: req.body.token})
+  scope.create({token: req.user._id})
     .then(scope => {
       const fields = ['_id', 'token', 'containers', 'tags', 'createdAt'];
       res.json(jsonUtils.getResponse(scope, fields));
