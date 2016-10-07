@@ -46,10 +46,16 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 const swaggerSecurityDefinition = {
   accessToken: (req, def, scopes, callback) => {
-    if (!req.get('AuthToken')) {
-      return req.res.status(401).json({error: 'Token not defined'});
+    const authMethod = 'Token';
+    const reqAuthHeader = req.get('Authorization');
+    if (!reqAuthHeader) {
+      return req.res.status(401).json({error: 'No auth headers'});
     }
-    return token.findById(req.get('AuthToken'))
+    const [reqAuthMethod, reqAuthToken] = reqAuthHeader.split(' ');
+    if (reqAuthMethod !== authMethod || !reqAuthToken) {
+        return req.res.status(401).json({error: 'Invalid auth method or token'});
+    }
+    return token.findById(req.get('Authorization'))
       .then(dbToken => {
         if (dbToken) {
           req.user = dbToken;
