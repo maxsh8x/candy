@@ -53,7 +53,7 @@ const swaggerSecurityDefinition = {
     }
     const [reqAuthMethod, reqAuthToken] = reqAuthHeader.split(' ');
     if (reqAuthMethod !== authMethod || !reqAuthToken) {
-        return req.res.status(401).json({error: 'Invalid auth method or token'});
+      return req.res.status(401).json({error: 'Invalid auth method or token'});
     }
     return token.findById(req.get('Authorization'))
       .then(dbToken => {
