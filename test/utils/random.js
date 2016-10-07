@@ -10,9 +10,7 @@ describe('utils -> random', () => {
     const secondToken = randomUtils.genRandomString();
     expect(firstToken).be.a('string');
     expect(firstToken.length).be.eql(20);
-    expect(firstToken.length).be.eql(20);
     expect(secondToken).be.a('string');
-    expect(secondToken.length).be.eql(20);
     expect(secondToken.length).be.eql(20);
     expect(firstToken).to.not.equal(secondToken);
     done();
