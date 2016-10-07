@@ -61,7 +61,7 @@ describe('handlers /api/tokens', () => {
         firstTokenUUID = dbToken._id;
         return chai.request(server)
           .get('/api/token/second/')
-          .set('AuthToken', firstTokenUUID);
+          .set('Authorization', `Token ${firstTokenUUID}`);
       })
         .then(res => {
           expect(res).have.status(200);

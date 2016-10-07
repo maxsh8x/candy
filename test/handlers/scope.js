@@ -70,13 +70,12 @@ describe('handlers /api/scopes', () => {
 
   describe('/create/ POST', () => {
     it('should return details about new created scope', done => {
-      let tokenUUID;
       return token.create({isInitiator: true}).then(dbToken => {
-        tokenUUID = dbToken._id;
+        const tokenUUID = dbToken._id;
         return chai.request(server)
           .get('/api/scope/create/')
           .set('content-type', 'application/json')
-          .set('AuthToken', tokenUUID);
+          .set('Authorization', `Token ${tokenUUID}`);
       })
         .then(res => {
           expect(res).have.status(200);
