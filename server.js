@@ -32,8 +32,8 @@ const swaggerDefinition = {
   securityDefinitions: {
     accessToken: {
       type: 'apiKey',
-      in: 'query',
-      name: 'apiKey'
+      in: 'header',
+      name: 'Authorization'
     }
   }
 };
